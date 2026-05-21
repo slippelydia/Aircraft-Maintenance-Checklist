@@ -71,7 +71,7 @@ Enterprise maintenance management systems (AMOS, RAMCO, TRAX) already exist for 
 
 **Lydia Slippe**  
 M.S. Electrical Engineering · Ohio University
-B.Eng. Avionics · National Aerospace University ("Kharkiv Aviation Institute")
+B.Eng. Avionics · National Aerospace University 
 [LinkedIn](https://www.linkedin.com/in/lydia-slippe)
 
 ---
