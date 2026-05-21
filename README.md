@@ -63,7 +63,7 @@ Feel free to open an [Issue](../../issues) or connect with me on [LinkedIn](http
 
 ## Relevant Context
 
-Enterprise maintenance management systems (AMOS, RAMCO, TRAX) already exist for large airlines, but they are expensive, complex, and out of reach for many smaller operators — particularly in developing aviation markets. This project explores what a simple, accessible alternative could look like for technicians who still rely on paper and spreadsheets.
+Enterprise maintenance management systems (AMOS, RAMCO, TRAX) already exist for large airlines, but they are expensive, complex, and out of reach for many smaller operators particularly in developing aviation markets. This project explores what a simple, accessible alternative could look like for technicians who still rely on paper and spreadsheets.
 
 ---
 
