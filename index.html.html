@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aircraft Maintenance Checklist — L. Slippe</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --navy: #1a2340; --navy-mid: #253055; --gold: #b8965a; --gold-light: #d4af7a;
+  --cream: #f8f5f0; --muted: #6b7080; --border: #d8d2c8; --white: #ffffff;
+  --success: #1D9E75; --warning: #BA7517; --danger: #C0392B;
+  --bg-success: #edf7f3; --bg-warning: #fdf4e7; --bg-secondary: #f1ede8;
+}
+body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--navy); font-size: 15px; line-height: 1.6; }
+
+/* HEADER */
+.site-header { background: var(--navy); color: white; padding: 28px 40px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; position: relative; overflow: hidden; }
+.site-header::before { content:''; position:absolute; top:-80px; right:-80px; width:300px; height:300px; border:1px solid rgba(184,150,90,0.15); border-radius:50%; pointer-events:none; }
+.site-header-left { position: relative; z-index:1; }
+.site-header h1 { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 500; letter-spacing: 0.02em; }
+.site-header p { font-size: 12px; color: rgba(255,255,255,0.55); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
+.header-badge { background: rgba(184,150,90,0.15); border: 1px solid rgba(184,150,90,0.3); color: var(--gold-light); font-size: 11px; padding: 4px 12px; border-radius: 2px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+/* MAIN */
+.main { max-width: 900px; margin: 0 auto; padding: 32px 24px 60px; }
+
+/* CONFIG */
+.config-panel { background: var(--white); border: 1px solid var(--border); border-radius: 6px; padding: 20px 24px; margin-bottom: 20px; }
+.config-panel-title { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); font-weight: 500; margin-bottom: 14px; }
+.config-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; }
+.config-field label { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 5px; font-weight: 500; }
+.config-field select, .config-field input[type=text] { width: 100%; font-size: 13.5px; padding: 8px 10px; border: 1px solid var(--border); border-radius: 3px; background: var(--cream); color: var(--navy); font-family: 'DM Sans', sans-serif; }
+.config-field select:focus, .config-field input:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+
+/* STATS */
+.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
+@media(max-width:560px){ .stats-row { grid-template-columns: repeat(2,1fr); } }
+.stat { background: var(--white); border: 1px solid var(--border); border-radius: 4px; padding: 14px 16px; }
+.stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+.stat-val { font-size: 26px; font-weight: 400; font-family: 'Cormorant Garamond', serif; }
+.stat-val.ok { color: var(--success); }
+.stat-val.warn { color: var(--warning); }
+.stat-val.danger { color: var(--danger); }
+
+/* PROGRESS */
+.progress-wrap { margin-bottom: 16px; }
+.progress-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+.progress-bar { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--success); border-radius: 3px; transition: width 0.35s ease; }
+
+/* TOOLBAR */
+.toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; align-items: center; }
+.toolbar select, .toolbar input[type=text] { font-size: 13px; padding: 7px 10px; border: 1px solid var(--border); border-radius: 3px; background: var(--cream); color: var(--navy); font-family: 'DM Sans', sans-serif; }
+.toolbar input[type=text] { flex: 1; min-width: 140px; }
+.btn { font-size: 12.5px; padding: 7px 14px; border: 1px solid var(--border); border-radius: 3px; background: var(--white); color: var(--navy); cursor: pointer; font-family: 'DM Sans', sans-serif; display: inline-flex; align-items: center; gap: 5px; transition: background 0.15s; }
+.btn:hover { background: var(--bg-secondary); }
+.btn-gold { background: var(--navy); color: var(--white); border-color: var(--navy); }
+.btn-gold:hover { background: var(--navy-mid); }
+
+/* TASKS */
+.section-card { background: var(--white); border: 1px solid var(--border); border-radius: 4px; margin-bottom: 10px; overflow: hidden; }
+.section-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; cursor: pointer; background: var(--bg-secondary); border-bottom: 1px solid var(--border); user-select: none; }
+.section-header-left { display: flex; align-items: center; gap: 8px; }
+.section-name { font-size: 13.5px; font-weight: 500; color: var(--navy); }
+.section-count { font-size: 12px; color: var(--muted); }
+.badge { font-size: 11px; padding: 2px 9px; border-radius: 2px; font-weight: 500; letter-spacing: 0.04em; }
+.badge-ok { background: var(--bg-success); color: var(--success); }
+.badge-warn { background: var(--bg-warning); color: var(--warning); }
+.badge-open { background: var(--bg-secondary); color: var(--muted); border: 1px solid var(--border); }
+.task-row { display: flex; align-items: flex-start; gap: 12px; padding: 10px 18px; border-bottom: 1px solid var(--border); transition: background 0.12s; }
+.task-row:last-child { border-bottom: none; }
+.task-row:hover { background: #fdfcfa; }
+.task-check { margin-top: 3px; width: 15px; height: 15px; cursor: pointer; accent-color: var(--success); flex-shrink: 0; }
+.task-content { flex: 1; min-width: 0; }
+.task-name { font-size: 13.5px; color: var(--navy); line-height: 1.4; font-weight: 300; }
+.task-name.done { text-decoration: line-through; color: #aaa; }
+.task-meta { display: flex; gap: 10px; margin-top: 4px; flex-wrap: wrap; }
+.prio-high { font-size: 11px; font-weight: 500; color: var(--danger); }
+.prio-med { font-size: 11px; font-weight: 500; color: var(--warning); }
+.prio-low { font-size: 11px; font-weight: 500; color: var(--success); }
+.task-cat { font-size: 11px; color: var(--muted); }
+.task-note { font-size: 12px; color: var(--muted); font-style: italic; margin-top: 3px; }
+.task-signoff { font-size: 11px; color: #bbb; margin-top: 2px; }
+.note-btn { font-size: 11px; color: var(--muted); background: none; border: 1px solid var(--border); border-radius: 2px; padding: 2px 8px; cursor: pointer; margin-top: 5px; font-family: 'DM Sans', sans-serif; }
+.note-btn:hover { background: var(--bg-secondary); }
+.note-input { font-size: 12.5px; margin-top: 6px; width: 100%; padding: 6px 9px; border: 1px solid var(--border); border-radius: 3px; background: var(--cream); color: var(--navy); font-family: 'DM Sans', sans-serif; }
+.note-input:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+.empty { text-align: center; padding: 3rem; color: var(--muted); font-size: 14px; }
+
+/* AUDIT */
+.audit-wrap { margin-top: 2rem; }
+.audit-title { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); font-weight: 500; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.audit-log { background: var(--white); border: 1px solid var(--border); border-radius: 4px; padding: 12px 16px; max-height: 180px; overflow-y: auto; }
+.audit-entry { display: flex; gap: 12px; font-size: 12px; color: var(--muted); padding: 4px 0; border-bottom: 1px solid var(--border); }
+.audit-entry:last-child { border-bottom: none; }
+.audit-time { font-family: monospace; font-size: 11px; color: #bbb; flex-shrink: 0; }
+
+/* ACTION ROW */
+.action-row { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+
+/* FOOTER */
+.site-footer { background: var(--navy); color: rgba(255,255,255,0.4); text-align: center; padding: 20px; font-size: 11px; letter-spacing: 0.08em; margin-top: 0; }
+.site-footer a { color: var(--gold); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header-left">
+    <h1><i class="ti ti-clipboard-check" style="margin-right:8px; vertical-align:-3px;"></i>Aircraft Maintenance Checklist</h1>
+    <p>Lydia Slippe · Electrical Engineering & Aviation</p>
+  </div>
+  <div class="header-badge">Portfolio Project</div>
+</header>
+
+<main class="main">
+
+  <div class="config-panel">
+    <div class="config-panel-title">Inspection configuration</div>
+    <div class="config-grid">
+      <div class="config-field">
+        <label>Aircraft type</label>
+        <select id="ac-type" onchange="onConfigChange()">
+          <option value="narrowbody">Narrowbody (A320 / B737 family)</option>
+          <option value="regional">Regional jet (E145 / CRJ / ATR)</option>
+          <option value="widebody">Widebody (B777 / A330 / B787)</option>
+          <option value="helicopter">Helicopter (AS350 / Bell / Sikorsky)</option>
+          <option value="turboprop">Turboprop (DHC-8 / King Air)</option>
+          <option value="general">General aviation (Cessna / Piper)</option>
+        </select>
+      </div>
+      <div class="config-field">
+        <label>Inspection type</label>
+        <select id="insp-type" onchange="onConfigChange()">
+          <option value="predep">Pre-departure</option>
+          <option value="postflight">Post-flight</option>
+          <option value="turnaround">Turnaround</option>
+          <option value="transit">Transit check</option>
+          <option value="weekly">Weekly / A-check</option>
+          <option value="general_mx">General maintenance</option>
+        </select>
+      </div>
+      <div class="config-field">
+        <label>Registration</label>
+        <input type="text" id="reg" value="9G-AEX" placeholder="e.g. N12345">
+      </div>
+      <div class="config-field">
+        <label>Technician</label>
+        <input type="text" id="tech" value="L. Slippe" placeholder="Name / ID">
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat"><div class="stat-label">Total tasks</div><div class="stat-val" id="s-total">0</div></div>
+    <div class="stat"><div class="stat-label">Completed</div><div class="stat-val ok" id="s-done">0</div></div>
+    <div class="stat"><div class="stat-label">Pending</div><div class="stat-val warn" id="s-pending">0</div></div>
+    <div class="stat"><div class="stat-label">Critical open</div><div class="stat-val danger" id="s-critical">0</div></div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-meta"><span id="prog-label">0% complete</span><span id="prog-count"></span></div>
+    <div class="progress-bar"><div class="progress-fill" id="prog" style="width:0%"></div></div>
+  </div>
+
+  <div class="toolbar">
+    <select id="filter-status" onchange="renderTasks()">
+      <option value="all">All tasks</option>
+      <option value="open">Open only</option>
+      <option value="done">Completed only</option>
+    </select>
+    <select id="filter-prio" onchange="renderTasks()">
+      <option value="all">All priorities</option>
+      <option value="high">Critical</option>
+      <option value="med">Medium</option>
+      <option value="low">Routine</option>
+    </select>
+    <input type="text" id="search" placeholder="Search tasks..." oninput="renderTasks()">
+    <button class="btn" onclick="resetAll()"><i class="ti ti-refresh"></i> Reset</button>
+    <button class="btn btn-gold" onclick="exportLog()"><i class="ti ti-download"></i> Export log</button>
+  </div>
+
+  <div id="task-list"></div>
+
+  <div class="action-row">
+    <button class="btn" onclick="signOffAll()"><i class="ti ti-checks"></i> Sign off all visible</button>
+  </div>
+
+  <div class="audit-wrap">
+    <div class="audit-title"><i class="ti ti-history" style="font-size:15px;"></i> Audit trail <span id="audit-count" style="font-size:11px;color:var(--muted);font-weight:300;letter-spacing:0;text-transform:none;"></span></div>
+    <div class="audit-log" id="audit-log"></div>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  Built by <a href="https://www.linkedin.com/in/lydia-slippe" target="_blank">Lydia Slippe</a> &nbsp;·&nbsp; Electrical Engineering &amp; Aviation Portfolio
+</footer>
+
+<script>
+const TEMPLATES = {
+  predep: {
+    label: "Pre-departure inspection",
+    sections: {
+      "Airframe & exterior": [
+        { name:"Inspect fuselage skin — no cracks, dents, or corrosion", prio:"high" },
+        { name:"Check all access panels secured and latched", prio:"med" },
+        { name:"Verify windshield and windows — no delamination or cracks", prio:"high" },
+        { name:"Inspect wing leading edges and trailing edges", prio:"med" },
+      ],
+      "Landing gear": [
+        { name:"Check nose gear strut extension within limits", prio:"high" },
+        { name:"Inspect main gear tires — wear, cuts, correct pressure", prio:"high" },
+        { name:"Verify brake wear indicators within limits", prio:"high" },
+        { name:"Check gear doors alignment and hinge condition", prio:"med" },
+        { name:"Inspect gear bay for fluid leaks or foreign objects", prio:"med" },
+      ],
+      "Engines & powerplant": [
+        { name:"Inspect engine cowlings — no loose fasteners", prio:"high" },
+        { name:"Check engine oil level within operating range", prio:"high" },
+        { name:"Inspect intake and fan blades for FOD damage", prio:"high" },
+        { name:"Verify thrust reverser stowed and latched", prio:"med" },
+        { name:"Check exhaust area — no debris or damage", prio:"med" },
+      ],
+      "Flight controls": [
+        { name:"Verify freedom of movement — ailerons, elevator, rudder", prio:"high" },
+        { name:"Inspect control surface hinges and push rods", prio:"med" },
+        { name:"Confirm flap tracks clear and symmetric deployment", prio:"med" },
+      ],
+      "Fuel system": [
+        { name:"Check for fuel leaks at wing root and fuselage", prio:"high" },
+        { name:"Verify fuel quantity matches flight plan requirement", prio:"high" },
+        { name:"Confirm all fuel caps secured", prio:"med" },
+      ],
+      "Avionics & safety": [
+        { name:"Pitot covers removed and static ports unobstructed", prio:"high" },
+        { name:"Verify all nav lights and beacon operational", prio:"med" },
+        { name:"Check emergency exits placarded and unobstructed", prio:"med" },
+      ],
+    }
+  },
+  postflight: {
+    label: "Post-flight inspection",
+    sections: {
+      "Airframe": [
+        { name:"Walk-around — inspect for new damage since departure", prio:"high" },
+        { name:"Check for bird strike evidence on leading edges", prio:"high" },
+        { name:"Inspect wing tips and tail surfaces for damage", prio:"med" },
+      ],
+      "Landing gear": [
+        { name:"Inspect tires for flat spots, blowouts, or excessive wear", prio:"high" },
+        { name:"Check brakes for heat damage or hydraulic leaks", prio:"high" },
+        { name:"Inspect gear struts — no bottoming, correct extension", prio:"med" },
+      ],
+      "Engines": [
+        { name:"Inspect engine intakes for FOD ingestion evidence", prio:"high" },
+        { name:"Check for oil or fuel leaks post-shutdown", prio:"high" },
+        { name:"Verify engine cowl condition post-flight", prio:"med" },
+        { name:"Record engine cycle count in technical log", prio:"high" },
+      ],
+      "Fluid levels": [
+        { name:"Check hydraulic reservoir level", prio:"med" },
+        { name:"Check engine oil level and top up if required", prio:"med" },
+        { name:"Inspect brake fluid level", prio:"low" },
+      ],
+      "Documentation": [
+        { name:"Complete post-flight tech log entry", prio:"high" },
+        { name:"Record any defects in aircraft defect log", prio:"high" },
+        { name:"Update maintenance tracking system", prio:"med" },
+      ],
+    }
+  },
+  turnaround: {
+    label: "Turnaround check",
+    sections: {
+      "Quick exterior walk-around": [
+        { name:"Check for visible damage — fuselage, wings, tail", prio:"high" },
+        { name:"Verify landing gear condition and tire pressure", prio:"high" },
+        { name:"Inspect engine intakes clear of FOD", prio:"high" },
+        { name:"Check all access panels and hatches closed", prio:"med" },
+      ],
+      "Refueling": [
+        { name:"Confirm fuel grade and quantity with dispatcher", prio:"high" },
+        { name:"Supervise fueling — spill check throughout", prio:"high" },
+        { name:"Verify fuel caps secured post-fueling", prio:"high" },
+        { name:"Record fuel uplift in tech log", prio:"med" },
+      ],
+      "Cabin & cargo": [
+        { name:"Verify cargo hold closed and latched", prio:"high" },
+        { name:"Confirm cabin cleared of previous passenger items", prio:"low" },
+        { name:"Check galley and lavatory service complete", prio:"low" },
+      ],
+      "Fluid & service checks": [
+        { name:"Engine oil level check", prio:"med" },
+        { name:"Hydraulic fluid level check", prio:"med" },
+        { name:"Potable water service if required", prio:"low" },
+      ],
+      "Final checks": [
+        { name:"Ground power disconnected before engine start", prio:"high" },
+        { name:"Chocks and cones removed", prio:"high" },
+        { name:"Ground crew clear of aircraft before pushback", prio:"high" },
+      ],
+    }
+  },
+  transit: {
+    label: "Transit check",
+    sections: {
+      "Exterior": [
+        { name:"Visual check of fuselage and wing surfaces", prio:"med" },
+        { name:"Landing gear condition and tire check", prio:"high" },
+        { name:"Engine intake and exhaust clear", prio:"high" },
+      ],
+      "Fluids": [
+        { name:"Engine oil level serviceable", prio:"high" },
+        { name:"Hydraulic fluid serviceable", prio:"med" },
+      ],
+      "Cabin & safety": [
+        { name:"Emergency equipment on board and in date", prio:"high" },
+        { name:"Exits clear and placards correct", prio:"med" },
+      ],
+      "Documentation": [
+        { name:"Tech log reviewed — no outstanding deferred defects", prio:"high" },
+        { name:"Certificate of airworthiness and permits on board", prio:"high" },
+      ],
+    }
+  },
+  weekly: {
+    label: "Weekly / A-check",
+    sections: {
+      "Airframe deep inspection": [
+        { name:"Inspect all skin panels for corrosion, fatigue cracks", prio:"high" },
+        { name:"Check door seals and hinges — all doors", prio:"med" },
+        { name:"Inspect floor structure in cabin and cargo hold", prio:"med" },
+        { name:"Check antenna attachments and radome integrity", prio:"med" },
+      ],
+      "Landing gear full check": [
+        { name:"Clean and inspect all gear components", prio:"med" },
+        { name:"Lubricate gear hinges, actuator rods, and torque links", prio:"med" },
+        { name:"Check gear actuator hydraulic seals for weeping", prio:"high" },
+        { name:"Verify gear retraction system rigging", prio:"high" },
+      ],
+      "Engine & APU": [
+        { name:"Borescope inspection of engine hot section", prio:"high" },
+        { name:"Check engine mount bolts for torque", prio:"high" },
+        { name:"Inspect APU exhaust and inlet", prio:"med" },
+        { name:"Drain and replace oil if at limit", prio:"med" },
+      ],
+      "Flight controls rigging": [
+        { name:"Verify control surface travel limits in spec", prio:"high" },
+        { name:"Check cable tensions — all primary controls", prio:"high" },
+        { name:"Lubricate flight control pulleys and bell cranks", prio:"med" },
+      ],
+      "Avionics & electrical": [
+        { name:"Functional check of all avionics systems", prio:"med" },
+        { name:"Inspect wiring bundles for chafing in wheel wells", prio:"high" },
+        { name:"Verify battery charge state and electrolyte levels", prio:"med" },
+        { name:"Check all circuit breakers seated", prio:"low" },
+      ],
+      "Documentation": [
+        { name:"Update aircraft component life tracking", prio:"high" },
+        { name:"Review and sign off all work orders", prio:"high" },
+        { name:"File completed inspection record", prio:"high" },
+      ],
+    }
+  },
+  general_mx: {
+    label: "General maintenance",
+    sections: {
+      "Scheduled component replacement": [
+        { name:"Verify due items on component replacement schedule", prio:"high" },
+        { name:"Replace time-expired filter elements", prio:"med" },
+        { name:"Replace hydraulic seals at scheduled interval", prio:"med" },
+        { name:"Check and replace worn brake pads", prio:"high" },
+      ],
+      "Lubrication service": [
+        { name:"Lubricate all grease fittings per maintenance manual", prio:"med" },
+        { name:"Apply corrosion inhibitor to exposed metal structure", prio:"med" },
+        { name:"Check and lubricate cargo door rollers and tracks", prio:"low" },
+      ],
+      "Electrical systems": [
+        { name:"Inspect wiring harnesses for damage or chafing", prio:"high" },
+        { name:"Test all cockpit warning lights and annunciators", prio:"med" },
+        { name:"Check bonding and earthing straps", prio:"med" },
+        { name:"Inspect and clean battery terminals", prio:"med" },
+      ],
+      "Hydraulic systems": [
+        { name:"Check all hydraulic lines for leaks or chafing", prio:"high" },
+        { name:"Sample hydraulic fluid for contamination analysis", prio:"med" },
+        { name:"Inspect accumulators for correct pre-charge pressure", prio:"med" },
+      ],
+      "Oxygen & emergency": [
+        { name:"Check crew oxygen bottle pressure", prio:"high" },
+        { name:"Verify portable oxygen bottle serviceability", prio:"high" },
+        { name:"Inspect life raft and survival kit contents and dates", prio:"med" },
+        { name:"Check fire extinguisher weight and pin condition", prio:"high" },
+      ],
+      "Records & compliance": [
+        { name:"Ensure all work performed against approved data", prio:"high" },
+        { name:"Complete maintenance release / certificate of return to service", prio:"high" },
+        { name:"File completed work orders and parts records", prio:"high" },
+      ],
+    }
+  },
+};
+
+const AC_ADDONS = {
+  helicopter: {
+    "Rotor system": [
+      { name:"Inspect main rotor blades for delamination or damage", prio:"high" },
+      { name:"Check rotor head bearings for play or wear", prio:"high" },
+      { name:"Inspect tail rotor blades and pitch control links", prio:"high" },
+      { name:"Verify rotor mast and swashplate condition", prio:"med" },
+    ]
+  },
+  turboprop: {
+    "Propeller": [
+      { name:"Inspect prop blades for nicks, cracks, or erosion", prio:"high" },
+      { name:"Check prop hub for oil leaks or corrosion", prio:"high" },
+      { name:"Verify prop governor operation", prio:"med" },
+    ]
+  },
+  general: {
+    "Piston engine checks": [
+      { name:"Check spark plugs for fouling", prio:"med" },
+      { name:"Inspect magnetos and ignition leads", prio:"med" },
+      { name:"Verify carb heat / fuel injection system serviceable", prio:"med" },
+    ]
+  }
+};
+
+let tasks = [], auditLog = [], expandedSections = {};
+
+function now() { return new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}); }
+function logAudit(msg) { auditLog.unshift({time:now(),msg}); renderAudit(); }
+function renderAudit() {
+  const el = document.getElementById('audit-log');
+  document.getElementById('audit-count').textContent = auditLog.length + ' events';
+  el.innerHTML = auditLog.map(e=>`<div class="audit-entry"><span class="audit-time">${e.time}</span><span>${e.msg}</span></div>`).join('') || '<div class="audit-entry"><span class="audit-time">--:--:--</span><span>No activity yet.</span></div>';
+}
+
+function buildTasks() {
+  const inspType = document.getElementById('insp-type').value;
+  const acType = document.getElementById('ac-type').value;
+  const tmpl = TEMPLATES[inspType];
+  let allSections = Object.assign({}, tmpl.sections);
+  if (AC_ADDONS[acType]) Object.assign(allSections, AC_ADDONS[acType]);
+  let id = 1; tasks = [];
+  Object.entries(allSections).forEach(([sec, items]) => {
+    items.forEach(item => tasks.push({ id:id++, section:sec, name:item.name, prio:item.prio, done:false, note:'', signedBy:null, signedAt:null }));
+  });
+  expandedSections = {};
+  Object.keys(allSections).forEach(s => expandedSections[s] = true);
+}
+
+function onConfigChange() {
+  buildTasks(); auditLog = [];
+  const reg = document.getElementById('reg').value || 'N/A';
+  const inspLabel = TEMPLATES[document.getElementById('insp-type').value].label;
+  const acLabel = document.getElementById('ac-type').options[document.getElementById('ac-type').selectedIndex].text;
+  logAudit(`Session started — ${tasks.length} tasks · ${inspLabel} · ${acLabel} · Reg: ${reg}`);
+  renderTasks();
+}
+
+function updateStats() {
+  const total = tasks.length, done = tasks.filter(t=>t.done).length;
+  const pct = total ? Math.round(done/total*100) : 0;
+  document.getElementById('s-total').textContent = total;
+  document.getElementById('s-done').textContent = done;
+  document.getElementById('s-pending').textContent = total - done;
+  document.getElementById('s-critical').textContent = tasks.filter(t=>!t.done&&t.prio==='high').length;
+  document.getElementById('prog').style.width = pct + '%';
+  document.getElementById('prog-label').textContent = pct + '% complete';
+  document.getElementById('prog-count').textContent = done + ' of ' + total + ' tasks';
+}
+
+function getFiltered() {
+  const sf = document.getElementById('filter-status').value;
+  const pf = document.getElementById('filter-prio').value;
+  const q = document.getElementById('search').value.toLowerCase();
+  return tasks.filter(t => {
+    if (sf==='open'&&t.done) return false;
+    if (sf==='done'&&!t.done) return false;
+    if (pf!=='all'&&t.prio!==pf) return false;
+    if (q&&!t.name.toLowerCase().includes(q)&&!t.section.toLowerCase().includes(q)) return false;
+    return true;
+  });
+}
+
+function groupBySec(arr) {
+  const map = {};
+  arr.forEach(t => { if (!map[t.section]) map[t.section]=[]; map[t.section].push(t); });
+  return map;
+}
+
+function renderTasks() {
+  updateStats();
+  const filtered = getFiltered();
+  const container = document.getElementById('task-list');
+  if (!filtered.length) { container.innerHTML = '<div class="empty">No tasks match your filters.</div>'; return; }
+  const sections = groupBySec(filtered);
+  container.innerHTML = Object.entries(sections).map(([sec, items]) => {
+    const doneCount = items.filter(t=>t.done).length, allDone = doneCount===items.length;
+    const exp = expandedSections[sec] !== false;
+    const badgeCls = allDone ? 'badge-ok' : doneCount>0 ? 'badge-warn' : 'badge-open';
+    const badgeTxt = allDone ? 'complete' : `${doneCount}/${items.length}`;
+    const escapedSec = sec.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    return `<div class="section-card">
+      <div class="section-header" onclick="toggleSec('${escapedSec}')">
+        <div class="section-header-left">
+          <i class="ti ti-chevron-${exp?'down':'right'}" style="font-size:14px;color:var(--muted);"></i>
+          <span class="section-name">${sec}</span>
+          <span class="section-count">${items.length} tasks</span>
+        </div>
+        <span class="badge ${badgeCls}">${badgeTxt}</span>
+      </div>
+      ${exp ? `<div>${items.map(t=>taskHTML(t)).join('')}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function taskHTML(t) {
+  const prioCls = t.prio==='high'?'prio-high':t.prio==='med'?'prio-med':'prio-low';
+  const prioLbl = t.prio==='high'?'Critical':t.prio==='med'?'Medium':'Routine';
+  return `<div class="task-row">
+    <input type="checkbox" class="task-check" ${t.done?'checked':''} onchange="toggleTask(${t.id})" aria-label="Complete task">
+    <div class="task-content">
+      <div class="task-name${t.done?' done':''}">${t.name}</div>
+      <div class="task-meta">
+        <span class="task-cat"><i class="ti ti-tag" style="font-size:11px;margin-right:2px;"></i>${t.section}</span>
+        <span class="${prioCls}"><i class="ti ti-alert-circle" style="font-size:11px;margin-right:2px;"></i>${prioLbl}</span>
+      </div>
+      ${t.note?`<div class="task-note"><i class="ti ti-notes" style="font-size:11px;margin-right:2px;"></i>${t.note}</div>`:''}
+      ${t.signedBy?`<div class="task-signoff"><i class="ti ti-check" style="font-size:11px;margin-right:2px;"></i>Signed off · ${t.signedBy} · ${t.signedAt}</div>`:''}
+      <button class="note-btn" onclick="toggleNote(${t.id})"><i class="ti ti-pencil" style="font-size:11px;"></i> ${t.note?'Edit note':'Add note'}</button>
+      <div id="ni-${t.id}" style="display:none;">
+        <input class="note-input" type="text" placeholder="Technician note — press Enter to save" value="${t.note.replace(/"/g,'&quot;')}" onkeydown="if(event.key==='Enter')saveNote(${t.id},this.value)">
+      </div>
+    </div>
+  </div>`;
+}
+
+function toggleTask(id) {
+  const t = tasks.find(x=>x.id===id);
+  t.done = !t.done;
+  const tech = document.getElementById('tech').value || 'Unknown';
+  if (t.done) { t.signedBy=tech; t.signedAt=now(); logAudit(`Signed off: "${t.name.slice(0,50)}" · ${tech}`); }
+  else { t.signedBy=null; t.signedAt=null; logAudit(`Reopened: "${t.name.slice(0,50)}"`); }
+  renderTasks();
+}
+
+function toggleNote(id) {
+  const el = document.getElementById('ni-'+id);
+  el.style.display = el.style.display==='none' ? 'block' : 'none';
+  if (el.style.display==='block') el.querySelector('input').focus();
+}
+
+function saveNote(id, val) {
+  const t = tasks.find(x=>x.id===id);
+  t.note = val.trim();
+  if (t.note) logAudit(`Note on "${t.name.slice(0,40)}": "${t.note}"`);
+  renderTasks();
+}
+
+function toggleSec(sec) {
+  expandedSections[sec] = expandedSections[sec]===false ? true : false;
+  renderTasks();
+}
+
+function signOffAll() {
+  const tech = document.getElementById('tech').value || 'Unknown';
+  const filtered = getFiltered().filter(t=>!t.done);
+  if (!filtered.length) return;
+  filtered.forEach(t => { t.done=true; t.signedBy=tech; t.signedAt=now(); });
+  logAudit(`Batch sign-off: ${filtered.length} tasks signed by ${tech}`);
+  renderTasks();
+}
+
+function resetAll() {
+  buildTasks();
+  logAudit('Checklist reset — all tasks reopened');
+  renderTasks();
+}
+
+function exportLog() {
+  const reg = document.getElementById('reg').value||'N/A';
+  const tech = document.getElementById('tech').value||'N/A';
+  const inspLabel = TEMPLATES[document.getElementById('insp-type').value].label;
+  const acLabel = document.getElementById('ac-type').options[document.getElementById('ac-type').selectedIndex].text;
+  const done = tasks.filter(t=>t.done).length;
+  const lines = [
+    'AIRCRAFT MAINTENANCE CHECKLIST — EXPORT',
+    `Aircraft type: ${acLabel}`, `Registration: ${reg}`,
+    `Inspection: ${inspLabel}`, `Technician: ${tech}`,
+    `Date: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`,
+    `Progress: ${done}/${tasks.length} tasks completed`, '',
+    '--- TASK STATUS ---',
+    ...tasks.map(t=>`[${t.done?'X':' '}] [${t.prio.toUpperCase()}] ${t.section} | ${t.name}${t.note?' | Note: '+t.note:''}${t.signedBy?' | Signed: '+t.signedBy+' '+t.signedAt:''}`),
+    '', '--- AUDIT TRAIL ---',
+    ...auditLog.map(e=>`${e.time}  ${e.msg}`),
+  ];
+  const blob = new Blob([lines.join('\n')],{type:'text/plain'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = `mx_log_${reg}_${new Date().toISOString().slice(0,10)}.txt`; a.click();
+  logAudit('Audit log exported');
+}
+
+onConfigChange();
+</script>
+</body>
+</html>
