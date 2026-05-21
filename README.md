@@ -31,7 +31,7 @@ This project is my attempt to explore what a simple, accessible, web-based alter
 
 1. Select your **aircraft type** and **inspection type** from the dropdowns
 2. Enter the **aircraft registration** and **technician name**
-3. Work through the checklist — check off tasks as they are completed
+3. Work through the checklist, check off tasks as they are completed
 4. Add technician notes to any task by clicking **Add note**
 5. Monitor progress via the stats bar and progress indicator
 6. Export the completed log at any time using the **Export log** button
